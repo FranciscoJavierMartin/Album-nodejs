@@ -11,7 +11,7 @@ mongoose.connect('mongodeb://localhost:27017/albums',function(err,res){
     console.log('Base de datos funcionando correctamente');
 
     app.listen(port,function(){
-      console.log("API RESTfull de album conectada al puerto: "+port);
+      console.log("Servidor de API RESTfull de album conectada al puerto: "+port);
     });
   }
 });
