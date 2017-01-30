@@ -48,7 +48,7 @@ function getImages(req,res){
 
   if(!albumId){
     //Sacar todas las imagenes de la base de datos
-    Image.find({}).sort('-title').exec(function(err,images){
+    Image.find({}).sort('title').exec(function(err,images){
       if(err){
         res.status(500).send({message:'Error en la peticion'});
       }else{
@@ -67,7 +67,7 @@ function getImages(req,res){
     });
   }else{
     //Sacar todas las imagenes asociadas al album
-    Image.find({album: albumId}).sort('-title').exec(function(err,images){
+    Image.find({album: albumId}).sort('title').exec(function(err,images){
       if(err){
         res.status(500).send({message:'Error en la peticion'});
       }else{
@@ -109,9 +109,44 @@ function saveImage(req, res) {
 
 }
 
+function updateImage(req,res){
+  var imageId=req.params.id;
+  var update=req.body;
+
+  Image.findByIdAndUpdate(imageId,update,function(err,imageUpdated){
+    if(err){
+      res.status(500).send({message: 'Error en la peticion'});
+    }else{
+      if(!imageUpdated){
+        res.status(404).send({message: 'No se ha podido actualizar la imagen'});
+      }else{
+        res.status(200).send({image:imageUpdated});
+      }
+    }
+  });
+}
+
+function deleteImage(req,res){
+  var imageId=req.params.id;
+
+  Image.findByIdAndRemove(imageId,function(err,imageRemoved){
+    if(err){
+      res.status(500).send({message:'Error al borrar la imagen'});
+    }else{
+      if(!imageremoved){
+        res.status(404).send({message: 'No se ha podido eliminar la imagen'});
+      }else{
+        res.status(200).send({image:imageRemoved});
+      }
+    }
+  });
+}
+
 module.exports = {
     pruebas,
     getImage,
     saveImage,
-    getImages
+    getImages,
+    updateImage,
+    deleteImage
 };
