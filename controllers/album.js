@@ -38,7 +38,28 @@ function getAlbums(req,res){
 
 }
 
+function saveAlbum(res,res){
+  var album=new Album();
+  var params=req.body;
+
+  album.title=params.title;
+  album.description=params.description;
+
+  album.save(function(err,albumStored){
+    if(err){
+      res.status(500).send({message: 'Error al guardar el album'});
+    }else{
+      if(!albumStored){
+        res.status(404).send({message: 'No se ha guardado el album'});
+      }else{
+        res.status(200).send({album: albumStored});
+      }
+    }
+  });
+}
+
 module.exports={
   getAlbum,
-  getAlbums
+  getAlbums,
+  saveAlbum
 }
