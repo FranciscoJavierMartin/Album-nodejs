@@ -43,6 +43,44 @@ function getImage(req, res) {
     });
 }
 
+function getImages(req,res){
+  var albumId=req.params.album;
+
+  if(!albumId){
+    //Sacar todas las imagenes de la base de datos
+    Image.find({}).sort('-title').exec(function(err,images){
+      if(err){
+        res.status(500).send({message:'Error en la peticion'});
+      }else{
+        if(!images){
+          res.status(404).send({message:'No el album'});
+        }else{
+          Album.populate(images,{path:'album'},function(err,images){
+            if(err){
+              res.status(500).send({message: 'Error en la peticion'});
+            }else{
+              res.status(200).send({images});
+            }
+          });
+        }
+      }
+    });
+  }else{
+    //Sacar todas las imagenes asociadas al album
+    Image.find({album: albumId}).sort('-title').exec(function(err,images){
+      if(err){
+        res.status(500).send({message:'Error en la peticion'});
+      }else{
+        if(!images){
+          res.status(404).send({message:'No hay imagenes en este album'});
+        }else{
+          res.status(200).send({images});
+        }
+      }
+    });
+  }
+}
+
 function saveImage(req, res) {
     var image = new Image();
     var params = req.body;
@@ -74,5 +112,6 @@ function saveImage(req, res) {
 module.exports = {
     pruebas,
     getImage,
-    saveImage
+    saveImage,
+    getImages
 };
