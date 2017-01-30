@@ -7,5 +7,6 @@ var api=express.Router();
 api.get('/album/:id',AlbumController.getAlbum);
 api.get('/albums',AlbumController.getAlbums);
 api.post('/album',AlbumController.saveAlbum);
+api.put('/album:id',AlbumController.updateAlbum);
 
 module.exports=api;
