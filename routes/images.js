@@ -14,5 +14,6 @@ api.get('/image/:album?',ImageController.getImages);
 api.put('/image/:id',ImageController.updateImage);
 api.delete('/image/:id',ImageController.deleteImage);
 api.post('upload-image/:id',multipartMiddleware,ImageController.uploadImage);
+api.get('/get-image/:imageFile',multipartMiddleware,ImageController.getImageFile);
 
 module.exports=api;

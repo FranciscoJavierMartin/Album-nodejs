@@ -13,7 +13,14 @@ app.use(bodyPaser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 //Configurar cabeceras
+app.user(function(req,res,next){
+  res.header('Access-Control-Allow-Origin','*');
+  res.header('Access-Control-Allow-Headers','X-API-KEY, Origin, X-Requested-With, Content-Type, Access-Control-Request-Method, Acess-Control-Request-Headers');
+  res.header('Access-Control-Allow-Methods','GET, POST, OPTIONS, PUT, DELETE');
+  res.header('Allow','GET, POST, OPTIONS, PUT, DELETE');
 
+  next();
+});
 
 //rutas base
 app.use('/api',album_routes);

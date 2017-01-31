@@ -1,6 +1,7 @@
 'use strict'
 
 var path=require('path');
+var fs=require('fs');
 var Image = require('../models/image');
 var Album = require('../models/album');
 
@@ -169,6 +170,18 @@ function uploadImage(req,res){
   }
 }
 
+function getImageFile(req,res){
+  var imageFile=req.params.imageFile;
+
+  fs.exists('./uploads/'+imageFile,function(exists){
+    if(exists){
+      res.sendFile(path.resolve('./uploads/'+imageFile));
+    }else{
+      res.status(200).send({message: 'No existe la imagen'});
+    }
+  });
+}
+
 module.exports = {
     pruebas,
     getImage,
@@ -176,5 +189,6 @@ module.exports = {
     getImages,
     updateImage,
     deleteImage,
-    uploadImage
+    uploadImage,
+    getImageFile
 };
