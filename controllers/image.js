@@ -1,5 +1,6 @@
 'use strict'
 
+var path=require('path');
 var Image = require('../models/image');
 var Album = require('../models/album');
 
@@ -142,11 +143,38 @@ function deleteImage(req,res){
   });
 }
 
+function uploadImage(req,res){
+  var imageId=req.params.id;
+  var file_name='No subido';
+
+//Acceso a los ficheros que llegan desde la peticion
+  if(req.files){
+    var file_path=req.files.image.params.path;
+    var file_split=file_path.split('\\');
+    var file_name=file_split[1];
+
+    Image.findByIdAndUpdate(imageId,{picture: file_name},function(err,imageUpdated){
+      if(err){
+        res.status(500).send({message: 'Error en la peticion'});
+      }else{
+        if(!imageUpdated){
+          res.status(404).send({mesagge: 'No se ha podido actualizar la imagen'});
+        }else{
+          res.status(200).send({image:imageUpdated});
+        }
+      }
+    });
+  }else{
+    res.status(200).send({message:'No has subido ninguna imagen'});
+  }
+}
+
 module.exports = {
     pruebas,
     getImage,
     saveImage,
     getImages,
     updateImage,
-    deleteImage
+    deleteImage,
+    uploadImage
 };
