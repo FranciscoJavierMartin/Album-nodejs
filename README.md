@@ -1,7 +1,7 @@
 # Album-nodejs
 Album de fotos usando el stack MEAN. Hecho con proposito de aprender estas tecnologias
 
-Emplea NodeJs 6.9.4 y npm 3.10.10
+Emplea NodeJs 6.9.5 y npm 3.10.10
 
 Para instalar NodeJs visita https://nodejs.org
 
